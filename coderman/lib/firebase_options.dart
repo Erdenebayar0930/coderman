@@ -64,7 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '701759229006',
     projectId: 'coderman-283dc',
     storageBucket: 'coderman-283dc.firebasestorage.app',
-    iosBundleId: 'com.example.coderman',
+    iosBundleId: 'com.coderman.coderman',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -73,7 +73,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '701759229006',
     projectId: 'coderman-283dc',
     storageBucket: 'coderman-283dc.firebasestorage.app',
-    iosBundleId: 'com.example.coderman',
+    iosBundleId: 'com.coderman.coderman',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
