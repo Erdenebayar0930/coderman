@@ -9,20 +9,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // small helper gradients for variation
-    final purpleGradient = [
-      const Color(0xFF8E2DE2),
-      const Color(0xFF4A00E0),
-    ];
+    final purpleGradient = [const Color(0xFF8E2DE2), const Color(0xFF4A00E0)];
 
-    final blueGradient = [
-      const Color(0xFF3A8DFF),
-      const Color(0xFF6B6BFF),
-    ];
+    final blueGradient = [const Color(0xFF3A8DFF), const Color(0xFF6B6BFF)];
 
-    final orangeGradient = [
-      const Color(0xFFFF8A00),
-      const Color(0xFFD46B00),
-    ];
+    final orangeGradient = [const Color(0xFFFF8A00), const Color(0xFFD46B00)];
 
     return Scaffold(
       drawer: Drawer(
@@ -34,21 +25,40 @@ class HomePage extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: Image.asset('assets/images/coderman.png', width: 64, height: 64, fit: BoxFit.cover),
+                      child: Image.asset(
+                        'assets/images/coderman.png',
+                        width: 64,
+                        height: 64,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     const SizedBox(width: 12),
-                    const Text('Coderman', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    const Text(
+                      'Coderman',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
               ),
-              ListTile(leading: const Icon(Icons.home), title: const Text('Home')),
-              ListTile(leading: const Icon(Icons.person), title: const Text('Profile')),
-              ListTile(leading: const Icon(Icons.settings), title: const Text('Settings')),
+              ListTile(
+                leading: const Icon(Icons.home),
+                title: const Text('Home'),
+              ),
+              ListTile(
+                leading: const Icon(Icons.person),
+                title: const Text('Profile'),
+              ),
+              ListTile(
+                leading: const Icon(Icons.settings),
+                title: const Text('Settings'),
+              ),
             ],
           ),
         ),
       ),
-      appBar: const TopBar(title: 'Courses'),
 
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
@@ -67,10 +77,26 @@ class HomePage extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                CourseCard(title: 'Python', icon: Icons.code, gradientColors: purpleGradient),
-                CourseCard(title: 'Ethical Hacking', icon: Icons.lock, gradientColors: blueGradient),
-                CourseCard(title: 'Java', icon: Icons.coffee, gradientColors: purpleGradient),
-                CourseCard(title: 'HTML', icon: Icons.public, gradientColors: blueGradient),
+                CourseCard(
+                  title: 'Python',
+                  icon: Icons.code,
+                  gradientColors: purpleGradient,
+                ),
+                CourseCard(
+                  title: 'Ethical Hacking',
+                  icon: Icons.lock,
+                  gradientColors: blueGradient,
+                ),
+                CourseCard(
+                  title: 'Java',
+                  icon: Icons.coffee,
+                  gradientColors: purpleGradient,
+                ),
+                CourseCard(
+                  title: 'HTML',
+                  icon: Icons.public,
+                  gradientColors: blueGradient,
+                ),
               ],
             ),
 
@@ -86,8 +112,17 @@ class HomePage extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                CourseCard(title: 'JS', icon: Icons.javascript, gradientColors: orangeGradient),
-                CourseCard(title: 'C++', icon: Icons.memory, gradientColors: [Color(0xFFFFC08A), Color(0xFFD98F3C)], rightTopTag: '12% Completed'),
+                CourseCard(
+                  title: 'JS',
+                  icon: Icons.javascript,
+                  gradientColors: orangeGradient,
+                ),
+                CourseCard(
+                  title: 'C++',
+                  icon: Icons.memory,
+                  gradientColors: [Color(0xFFFFC08A), Color(0xFFD98F3C)],
+                  rightTopTag: '12% Completed',
+                ),
               ],
             ),
 
@@ -103,8 +138,14 @@ class HomePage extends StatelessWidget {
         selectedItemColor: Theme.of(context).colorScheme.primary,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.show_chart), label: 'Progress'),
-          BottomNavigationBarItem(icon: Icon(Icons.workspace_premium), label: 'Pro'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.show_chart),
+            label: 'Progress',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.workspace_premium),
+            label: 'Pro',
+          ),
         ],
       ),
     );

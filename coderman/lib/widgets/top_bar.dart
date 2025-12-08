@@ -1,79 +1,131 @@
 import 'package:flutter/material.dart';
-import '../theme/app_theme.dart';
 
 class TopBar extends StatelessWidget implements PreferredSizeWidget {
-  final String title;
-  const TopBar({super.key, this.title = 'Courses'});
+  final VoidCallback onToggleTheme;
+  final VoidCallback onMN;
+  final VoidCallback onEN;
+  final bool isMN; // идэвхтэй хэл
+
+  const TopBar({
+    super.key,
+    required this.onToggleTheme,
+    required this.onMN,
+    required this.onEN,
+    required this.isMN,
+  });
+
+  @override
+  Size get preferredSize => const Size.fromHeight(60);
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
+
     return AppBar(
-      title: Text(title, style: const TextStyle(fontSize: 22)),
-      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+      backgroundColor: const Color(0xFF1A1F29),
       elevation: 0,
-      leading: IconButton(
-        icon: Icon(
-          Icons.menu,
-          color: Theme.of(context).appBarTheme.foregroundColor,
+      titleSpacing: 0,
+      title: Padding(
+        padding: const EdgeInsets.only(left: 12),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: Image.asset("assets/images/top_logo.png", height: 38),
+            ),
+          ],
         ),
-        onPressed: () {
-          // For now just open drawer if exists
-          ScaffoldMessenger.of(context).removeCurrentSnackBar();
-          Scaffold.of(context).openDrawer();
-        },
       ),
+
       actions: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: Center(
-            child: GestureDetector(
-              onTap: () {
-                // profile tap action
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Row(
-                  children: [
-                    // GET PRO button
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppTheme.primary,
-                        borderRadius: BorderRadius.circular(28),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      child: const Text(
-                        "GET PRO",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+        // ---------------------------
+        //     LANGUAGE SWITCH
+        //   Theme-тэй холилдохгүй
+        // ---------------------------
+        Container(
+          margin: const EdgeInsets.only(right: 12),
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+            color: isDark ? const Color(0xFF2D3440) : Colors.grey.shade200,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Row(
+            children: [
+              // MN
+              InkWell(
+                onTap: onMN,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isMN
+                        ? const Color.fromARGB(255, 2, 45, 69)
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    "MN",
+                    style: TextStyle(
+                      color: isMN
+                          ? Colors.white
+                          : (isDark ? Colors.white70 : Colors.black54),
                     ),
-                    const SizedBox(width: 12),
-                    // avatar
-                    // ClipRRect(
-                    //   borderRadius: BorderRadius.circular(8),
-                    //   child: Image.asset(
-                    //     'assets/images/coderman.png',
-                    //     width: 40,
-                    //     height: 40,
-                    //     fit: BoxFit.cover,
-                    //   ),
-                    // ),
-                  ],
+                  ),
                 ),
               ),
+
+              const SizedBox(width: 6),
+
+              // EN
+              InkWell(
+                onTap: onEN,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: isMN
+                        ? Colors.transparent
+                        : const Color.fromARGB(255, 2, 45, 69),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    "EN",
+                    style: TextStyle(
+                      color: isMN
+                          ? (isDark ? Colors.white70 : Colors.black54)
+                          : Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        // ---------------------------
+        //       THEME SWITCH
+        // ---------------------------
+        InkWell(
+          onTap: onToggleTheme,
+          child: Container(
+            margin: const EdgeInsets.only(right: 16),
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: isDark ? const Color(0xFF2D3440) : Colors.grey.shade200,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              isDark ? Icons.wb_sunny_outlined : Icons.nights_stay_outlined,
+              color: isDark ? Colors.white70 : Colors.black54,
+              size: 20,
             ),
           ),
         ),
       ],
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
