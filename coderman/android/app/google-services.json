@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "701759229006",
+    "project_id": "coderman-283dc",
+    "storage_bucket": "coderman-283dc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701759229006:android:11a63a0651d52d82a7871f",
+        "android_client_info": {
+          "package_name": "com.example.coderman"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "701759229006-0jahbbgpsemf5qcc7ti1gdpi0qd7tva9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXBa3tl9G0Y7AO9bvBoLjGUog_0_6qHFk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "701759229006-0jahbbgpsemf5qcc7ti1gdpi0qd7tva9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "701759229006-dln766rcom7spjormupa1ujenuoqh30c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.coderman"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

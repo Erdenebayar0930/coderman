@@ -13,7 +13,10 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       elevation: 0,
       leading: IconButton(
-        icon: Icon(Icons.menu, color: Theme.of(context).appBarTheme.foregroundColor),
+        icon: Icon(
+          Icons.menu,
+          color: Theme.of(context).appBarTheme.foregroundColor,
+        ),
         onPressed: () {
           // For now just open drawer if exists
           ScaffoldMessenger.of(context).removeCurrentSnackBar();
@@ -38,7 +41,10 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
                         color: AppTheme.primary,
                         borderRadius: BorderRadius.circular(28),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
                       child: const Text(
                         "GET PRO",
                         style: TextStyle(
@@ -49,21 +55,21 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                     const SizedBox(width: 12),
                     // avatar
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.asset(
-                        'assets/images/coderman.png',
-                        width: 40,
-                        height: 40,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                    // ClipRRect(
+                    //   borderRadius: BorderRadius.circular(8),
+                    //   child: Image.asset(
+                    //     'assets/images/coderman.png',
+                    //     width: 40,
+                    //     height: 40,
+                    //     fit: BoxFit.cover,
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
