@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-<string name="app_name">Coderman</string>
-<string name="facebook_app_id">1:701759229006:android:11a63a0651d52d82a7871f</string>
-<string name="fb_login_protocol_scheme">fb1:701759229006:android:11a63a0651d52d82a7871f</string>
-<string name="facebook_client_token">7a69cf287e72880623afcaf8d9522b13</string>
-</resources>
