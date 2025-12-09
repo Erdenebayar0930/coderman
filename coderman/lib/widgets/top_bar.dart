@@ -38,10 +38,6 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
       ),
 
       actions: [
-        // ---------------------------
-        //     LANGUAGE SWITCH
-        //   Theme-тэй холилдохгүй
-        // ---------------------------
         Container(
           margin: const EdgeInsets.only(right: 12),
           padding: const EdgeInsets.all(4),

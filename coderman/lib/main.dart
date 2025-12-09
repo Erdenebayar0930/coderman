@@ -1,23 +1,8 @@
 import 'package:coderman/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:coderman/theme/app_theme.dart';
 
-// THEME DEFINITIONS
-final lightTheme = ThemeData(
-  brightness: Brightness.light,
-  primarySwatch: Colors.indigo,
-  scaffoldBackgroundColor: Colors.white,
-  cardColor: Colors.grey.shade100,
-
-  appBarTheme: AppBarTheme(backgroundColor: Colors.blue),
-);
-
-final darkTheme = ThemeData(
-  brightness: Brightness.dark,
-  primarySwatch: Colors.indigo,
-  scaffoldBackgroundColor: Color(0xFF0F0F0F),
-  cardColor: Color(0xFF1A1A1A),
-  appBarTheme: AppBarTheme(backgroundColor: Color(0xFF1C1C1C)),
-);
+import 'pages/profile_screen.dart';
 
 void main() {
   runApp(CodermanApp());
@@ -30,15 +15,15 @@ class CodermanApp extends StatefulWidget {
 
 class _CodermanAppState extends State<CodermanApp> {
   ThemeMode _themeMode = ThemeMode.light;
-  String _lang = 'MN';
+  String _lang = 'EN';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       themeMode: _themeMode,
-      theme: lightTheme,
-      darkTheme: darkTheme,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       home: HomePage(
         lang: _lang,
         onToggleLang: () {
@@ -58,145 +43,131 @@ class _CodermanAppState extends State<CodermanApp> {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   final VoidCallback onToggleTheme;
   final VoidCallback onToggleLang;
   final String lang;
 
-  const HomePage({
+  HomePage({
     required this.lang,
     required this.onToggleTheme,
     required this.onToggleLang,
   });
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
+
+  final List<Widget> _pages = [
+    ProfileScreen(),
+    ProfileScreen(),
+    ProfileScreen(),
+    ProfileScreen(),
+    ProfileScreen(),
+  ];
+
+  @override
   Widget build(BuildContext context) {
-    bool isMN = lang == 'MN';
+    bool isMN = widget.lang == 'MN';
 
     return Scaffold(
       appBar: TopBar(
-        onToggleTheme: onToggleTheme,
-        onMN: isMN ? () {} : onToggleLang,
-        onEN: isMN ? onToggleLang : () {},
+        onToggleTheme: widget.onToggleTheme,
+        onMN: isMN ? () {} : widget.onToggleLang,
+        onEN: isMN ? widget.onToggleLang : () {},
         isMN: isMN,
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      body: _pages[_currentIndex],
+      bottomNavigationBar: SizedBox(
+        height: 120, // 👉 нийт өндөр (background + navbar)
+        child: Stack(
           children: [
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                gradient: LinearGradient(
-                  colors: [Colors.blue, Colors.purple],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+            // ⬇️ Background — илүү өндөр
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Container(
+                height: 62, // 👉 хүссэнээрээ өндөр болгож болно
+                decoration: const BoxDecoration(
+                  color: const Color(0xFF1A1F29), // 👍 background color
+                  border: Border(
+                    top: BorderSide(color: Colors.black, width: 1),
+                  ),
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    isMN ? 'Тавтай морил,' : 'Welcome,',
-                    style: TextStyle(fontSize: 26, color: Colors.white),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'CODERMAN',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+            ),
+
+            // ⬆️ BottomNavigationBar өөрөө
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                backgroundColor: Colors.transparent, // 👉 bgгүй байх ёстой
+                selectedItemColor: Colors.white,
+                selectedFontSize: 13,
+                elevation: 0,
+                currentIndex: _currentIndex,
+                showUnselectedLabels: false,
+                onTap: (index) {
+                  setState(() => _currentIndex = index);
+                },
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Image.asset(
+                      _currentIndex == 0
+                          ? 'assets/images/lesson.png'
+                          : 'assets/images/lesson_1.png',
+                      width: 55,
                     ),
+                    label: isMN ? "Хичээл" : "Lessons",
                   ),
-                  SizedBox(height: 12),
-                  Text(
-                    isMN
-                        ? 'Бүтээмжээ нээ. Код бичиж эхлээрэй!'
-                        : 'Unlock Your Potential. Start Coding!',
-                    style: TextStyle(fontSize: 16, color: Colors.white70),
+                  BottomNavigationBarItem(
+                    icon: Image.asset(
+                      _currentIndex == 1
+                          ? 'assets/images/challenge.png'
+                          : 'assets/images/challenge_1.png',
+                      width: 55,
+                    ),
+                    label: isMN ? "Бодлогууд" : "Challenges",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Image.asset(
+                      _currentIndex == 2
+                          ? 'assets/images/profile.png'
+                          : 'assets/images/profile_1.png',
+                      width: 55,
+                    ),
+                    label: isMN ? "Профайл" : "Profile",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Image.asset(
+                      _currentIndex == 3
+                          ? 'assets/images/leadership.png'
+                          : 'assets/images/leadership_1.png',
+                      width: 55,
+                    ),
+                    label: isMN ? "Манлайлал" : "Leadership",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Image.asset(
+                      _currentIndex == 4
+                          ? 'assets/images/other.png'
+                          : 'assets/images/other_1.png',
+                      width: 55,
+                    ),
+                    label: isMN ? "Бусад апп" : "Other apps",
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 20),
-            _buildCard(Icons.emoji_events, isMN ? 'Ранк' : 'Rank', '#25'),
-            _buildCard(
-              Icons.access_time,
-              isMN ? 'Хичээл хийсэн цаг' : 'Learning Hours',
-              '32',
-            ),
-            _buildCard(
-              Icons.bubble_chart,
-              isMN ? 'Бодсон бодлого' : 'Solved Problems',
-              '45',
-            ),
-            _buildCard(
-              Icons.trending_up,
-              isMN ? 'Тэмцээний амжилт' : 'Contest Success',
-              '68%',
-            ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book),
-            label: isMN ? 'Нүүр' : 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.code),
-            label: isMN ? 'Код' : 'Code',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.leaderboard),
-            label: isMN ? 'Ранк' : 'Rank',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: isMN ? 'Профайл' : 'Profile',
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCard(IconData icon, String title, String value) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 16),
-      padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: Colors.white.withOpacity(0.1),
-        border: Border.all(color: Colors.white12),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white24,
-                ),
-                child: Icon(icon, color: Colors.amber),
-              ),
-              SizedBox(width: 12),
-              Text(title, style: TextStyle(fontSize: 18)),
-            ],
-          ),
-          Text(
-            value,
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
-        ],
       ),
     );
   }
