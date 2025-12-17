@@ -41,68 +41,31 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
         ],
       ),
 
-      actions: [_languageSwitcher(context, isDark), _themeSwitcher(isDark)],
+      actions: [
+        _languageSwitcher(context, isDark, isMN),
+        _themeSwitcher(isDark),
+      ],
     );
   }
 
   // ---------------------------
   // Language switcher
   // ---------------------------
-  Widget _languageSwitcher(BuildContext context, bool isDark) {
-    return Container(
-      margin: const EdgeInsets.only(right: 12),
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF2D3440) : Colors.grey.shade200,
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: Row(
-        children: [
-          _langItem(
-            text: "MN",
-            active: isMN,
-            onTap: () => CodermanApp.setLocale(context, const Locale('mn')),
-            isDark: isDark,
-          ),
-          const SizedBox(width: 4),
-          _langItem(
-            text: "EN",
-            active: !isMN,
-            onTap: () => CodermanApp.setLocale(context, const Locale('en')),
-            isDark: isDark,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _langItem({
-    required String text,
-    required bool active,
-    required VoidCallback onTap,
-    required bool isDark,
-  }) {
+  Widget _languageSwitcher(BuildContext context, bool isDark, bool isMN) {
     return InkWell(
-      borderRadius: BorderRadius.circular(14),
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        decoration: BoxDecoration(
-          color: active ? const Color(0xFF1b2e51) : Colors.transparent,
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: active
-                ? Colors.white
-                : (isDark ? Colors.white70 : Colors.black54),
-          ),
-        ),
-      ),
+      onTap: () {
+        CodermanApp.setLocale(
+          context,
+          isMN ? const Locale('en') : const Locale('mn'),
+        );
+      },
+      child: isMN
+          ? Image.asset("assets/images/en.png", height: 37, fit: BoxFit.contain)
+          : Image.asset(
+              "assets/images/mn.png",
+              height: 37,
+              fit: BoxFit.contain,
+            ),
     );
   }
 
@@ -112,23 +75,19 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
   Widget _themeSwitcher(bool isDark) {
     return InkWell(
       onTap: onToggleTheme,
-      borderRadius: BorderRadius.circular(14),
-      child: Container(
-        margin: const EdgeInsets.only(right: 16),
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: isDark ? const Color(0xFF1b2e51) : Colors.grey.shade200,
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 200),
-          child: Icon(
-            isDark ? Icons.wb_sunny_outlined : Icons.nights_stay_outlined,
-            key: ValueKey(isDark),
-            size: 20,
-            color: isDark ? Colors.orange : Colors.black54,
-          ),
-        ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: isDark
+            ? Image.asset(
+                "assets/images/light.png",
+                height: 37,
+                fit: BoxFit.contain,
+              )
+            : Image.asset(
+                "assets/images/dark.png",
+                height: 37,
+                fit: BoxFit.contain,
+              ),
       ),
     );
   }

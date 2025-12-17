@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:coderman/theme/app_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'pages/challenger_screen.dart';
+import 'pages/leadership_screen.dart';
+import 'pages/lesson_screen.dart';
+import 'pages/otherapp_screen.dart';
 import 'pages/profile_screen.dart';
 
 void main() {
@@ -85,11 +89,11 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 2;
 
   final List<Widget> _pages = [
+    LessonScreen(),
+    ChallengerScreen(),
     ProfileScreen(),
-    ProfileScreen(),
-    ProfileScreen(),
-    ProfileScreen(),
-    ProfileScreen(),
+    LeadershipScreen(),
+    OtherappScreen(),
   ];
 
   @override
@@ -97,7 +101,7 @@ class _HomePageState extends State<HomePage> {
     bool isMN = widget.lang == 'MN';
 
     return Scaffold(
-      appBar: TopBar(onToggleTheme: widget.onToggleTheme, isMN: isMN),
+      appBar: TopBar(isMN: isMN, onToggleTheme: widget.onToggleTheme),
       body: _pages[_currentIndex],
       bottomNavigationBar: SizedBox(
         height: 100, // 👉 нийт өндөр (background + navbar)

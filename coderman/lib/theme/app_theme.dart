@@ -6,12 +6,13 @@ class AppTheme {
 
   static final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
+    scaffoldBackgroundColor: const Color(0xFFF7F7FB),
+
     primaryColor: primary,
     colorScheme: ColorScheme.fromSeed(
       seedColor: primary,
       brightness: Brightness.light,
     ),
-    scaffoldBackgroundColor: const Color(0xFFF7F7FB),
     appBarTheme: const AppBarTheme(
       foregroundColor: Colors.black,
       elevation: 0,
@@ -30,12 +31,12 @@ class AppTheme {
 
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
+    scaffoldBackgroundColor: const Color(0xFF090D1F),
     primaryColor: Colors.white,
     colorScheme: ColorScheme.fromSeed(
       seedColor: Colors.white,
       brightness: Brightness.dark,
     ),
-    scaffoldBackgroundColor: const Color(0xFF0F1115),
     appBarTheme: const AppBarTheme(
       foregroundColor: Colors.white,
       elevation: 0,
