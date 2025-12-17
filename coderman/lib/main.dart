@@ -1,6 +1,8 @@
+import 'package:coderman/l10n/app_localizations.dart';
 import 'package:coderman/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:coderman/theme/app_theme.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'pages/profile_screen.dart';
 
@@ -9,13 +11,28 @@ void main() {
 }
 
 class CodermanApp extends StatefulWidget {
+  const CodermanApp({super.key});
+
+  static void setLocale(BuildContext context, Locale locale) {
+    _CodermanAppState? state = context
+        .findAncestorStateOfType<_CodermanAppState>();
+    state?.setLocale(locale);
+  }
+
   @override
   State<CodermanApp> createState() => _CodermanAppState();
 }
 
 class _CodermanAppState extends State<CodermanApp> {
+  Locale _locale = const Locale('mn');
+
+  void setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
+
   ThemeMode _themeMode = ThemeMode.light;
-  String _lang = 'EN';
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +41,18 @@ class _CodermanAppState extends State<CodermanApp> {
       themeMode: _themeMode,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
+      locale: _locale,
+      supportedLocales: const [Locale('en'), Locale('mn')],
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       home: HomePage(
-        lang: _lang,
+        lang: _locale.languageCode.toUpperCase(),
         onToggleLang: () {
-          setState(() {
-            _lang = _lang == 'MN' ? 'EN' : 'MN';
-          });
+          CodermanApp.setLocale(context, const Locale('mn'));
         },
         onToggleTheme: () {
           setState(() {
@@ -74,26 +97,20 @@ class _HomePageState extends State<HomePage> {
     bool isMN = widget.lang == 'MN';
 
     return Scaffold(
-      appBar: TopBar(
-        onToggleTheme: widget.onToggleTheme,
-        onMN: isMN ? () {} : widget.onToggleLang,
-        onEN: isMN ? widget.onToggleLang : () {},
-        isMN: isMN,
-      ),
+      appBar: TopBar(onToggleTheme: widget.onToggleTheme, isMN: isMN),
       body: _pages[_currentIndex],
       bottomNavigationBar: SizedBox(
-        height: 120, // 👉 нийт өндөр (background + navbar)
+        height: 100, // 👉 нийт өндөр (background + navbar)
         child: Stack(
           children: [
-            // ⬇️ Background — илүү өндөр
             Positioned(
               left: 0,
               right: 0,
               bottom: 0,
               child: Container(
-                height: 62, // 👉 хүссэнээрээ өндөр болгож болно
+                height: 65, // 👉 хүссэнээрээ өндөр болгож болно
                 decoration: const BoxDecoration(
-                  color: const Color(0xFF1A1F29), // 👍 background color
+                  color: const Color(0xFF0d1522), // 👍 background color
                   border: Border(
                     top: BorderSide(color: Colors.black, width: 1),
                   ),

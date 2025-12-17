@@ -1,127 +1,135 @@
+import 'package:coderman/main.dart';
 import 'package:flutter/material.dart';
 
 class TopBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onToggleTheme;
-  final VoidCallback onMN;
-  final VoidCallback onEN;
-  final bool isMN; // идэвхтэй хэл
+  final bool isMN;
 
-  const TopBar({
-    super.key,
-    required this.onToggleTheme,
-    required this.onMN,
-    required this.onEN,
-    required this.isMN,
-  });
+  const TopBar({super.key, required this.onToggleTheme, required this.isMN});
 
   @override
-  Size get preferredSize => const Size.fromHeight(60);
+  Size get preferredSize => const Size.fromHeight(58);
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return AppBar(
       backgroundColor: const Color(0xFF1A1F29),
       elevation: 0,
-      titleSpacing: 0,
-      title: Padding(
-        padding: const EdgeInsets.only(left: 12),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(6),
-              child: Image.asset("assets/images/top_logo.png", height: 38),
-            ),
-          ],
+      centerTitle: true,
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/head.png"),
+            fit: BoxFit.cover,
+          ),
         ),
       ),
+      titleSpacing: 1,
 
-      actions: [
-        Container(
-          margin: const EdgeInsets.only(right: 12),
-          padding: const EdgeInsets.all(4),
-          decoration: BoxDecoration(
-            color: isDark ? const Color(0xFF2D3440) : Colors.grey.shade200,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Row(
-            children: [
-              // MN
-              InkWell(
-                onTap: onMN,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: isMN
-                        ? const Color.fromARGB(255, 2, 45, 69)
-                        : Colors.transparent,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    "MN",
-                    style: TextStyle(
-                      color: isMN
-                          ? Colors.white
-                          : (isDark ? Colors.white70 : Colors.black54),
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(width: 6),
-
-              // EN
-              InkWell(
-                onTap: onEN,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: isMN
-                        ? Colors.transparent
-                        : const Color.fromARGB(255, 2, 45, 69),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    "EN",
-                    style: TextStyle(
-                      color: isMN
-                          ? (isDark ? Colors.white70 : Colors.black54)
-                          : Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-
-        // ---------------------------
-        //       THEME SWITCH
-        // ---------------------------
-        InkWell(
-          onTap: onToggleTheme,
-          child: Container(
-            margin: const EdgeInsets.only(right: 16),
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF2D3440) : Colors.grey.shade200,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              isDark ? Icons.wb_sunny_outlined : Icons.nights_stay_outlined,
-              color: isDark ? Colors.white70 : Colors.black54,
-              size: 20,
+      title: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.asset(
+              "assets/images/top_logo.png",
+              height: 47,
+              fit: BoxFit.contain,
             ),
           ),
+        ],
+      ),
+
+      actions: [_languageSwitcher(context, isDark), _themeSwitcher(isDark)],
+    );
+  }
+
+  // ---------------------------
+  // Language switcher
+  // ---------------------------
+  Widget _languageSwitcher(BuildContext context, bool isDark) {
+    return Container(
+      margin: const EdgeInsets.only(right: 12),
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF2D3440) : Colors.grey.shade200,
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Row(
+        children: [
+          _langItem(
+            text: "MN",
+            active: isMN,
+            onTap: () => CodermanApp.setLocale(context, const Locale('mn')),
+            isDark: isDark,
+          ),
+          const SizedBox(width: 4),
+          _langItem(
+            text: "EN",
+            active: !isMN,
+            onTap: () => CodermanApp.setLocale(context, const Locale('en')),
+            isDark: isDark,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _langItem({
+    required String text,
+    required bool active,
+    required VoidCallback onTap,
+    required bool isDark,
+  }) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(14),
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: active ? const Color(0xFF1b2e51) : Colors.transparent,
+          borderRadius: BorderRadius.circular(14),
         ),
-      ],
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: active
+                ? Colors.white
+                : (isDark ? Colors.white70 : Colors.black54),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ---------------------------
+  // Theme switcher
+  // ---------------------------
+  Widget _themeSwitcher(bool isDark) {
+    return InkWell(
+      onTap: onToggleTheme,
+      borderRadius: BorderRadius.circular(14),
+      child: Container(
+        margin: const EdgeInsets.only(right: 16),
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: isDark ? const Color(0xFF1b2e51) : Colors.grey.shade200,
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          child: Icon(
+            isDark ? Icons.wb_sunny_outlined : Icons.nights_stay_outlined,
+            key: ValueKey(isDark),
+            size: 20,
+            color: isDark ? Colors.orange : Colors.black54,
+          ),
+        ),
+      ),
     );
   }
 }
